@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSE A4 Preview Report</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      background: #f0f2f5;
+      padding: 20px;
+    }
+    .report-page {
+      background-color: #ffffff;
+      width: 595px;
+      min-height: 842px;
+      padding: 20px;
+      margin: 0 auto 30px auto;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .form-section {
+      background: linear-gradient(to right, #f9f9f9, #f0f0f0);
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .info-text {
+      font-size: 0.85em;
+      color: #555;
+      margin-top: 4px;
+      white-space: pre-wrap;
+    }
+    #previewBtn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 24px;
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    #previewContainer {
+      text-align: center;
+      margin-top: 30px;
+    }
+    #previewContainer img {
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="pdfArea" class="report-page">
+    <h2>HSE Checklist Report – <br>
+    Metronor and BAS</h2>
+    <div class="form-section">
+  <label for="inspectorName"><strong>Inspector Name:</strong></label>
+  <input type="text" class="form-control mt-1" id="inspectorName" placeholder="Type inspector name here...">
+</div>
+    <div id="checklist"></div>
+    <div class="form-section">
+      <label><strong>Fire Routine Notes:</strong></label>
+      <textarea class="form-control mt-2" rows="4" placeholder="Enter notes about fire routine..."></textarea>
+    </div>
+    <div class="form-section">
+      <label><strong>Additional Comments:</strong></label>
+      <textarea class="form-control mt-2" rows="4" placeholder="Any extra notes or findings..."></textarea>
+    </div>
+    <div class="form-section">
+      <label><strong>Date:</strong></label>
+      <input type="text" class="form-control mt-1" value="" id="dateField" />
+    </div>
+  </div>
+
+  <button id="previewBtn">🖼️ Preview A4 PDF</button>
+  <div id="previewContainer"></div>
+
+  <script>
+    const checklistItems = [
+      { label: "Are escape routes clear", info: "Ensure all emergency exits are\nfree of obstructions and clearly marked." },
+      { label: "Good lighting", info: "Check that workspaces and walkways\nare well-lit with functioning lights." },
+      { label: "Fire extinguishers inspected", info: "Check the stamp or tag\nfor the last service date. Take a photo if needed." },
+      { label: "Fire hydrant accessible and not expired total 9, BAS 4 and Metronor 7", info: "Check hydrant accessibility\nand validity tag. Report any blockage or overdue checks." },
+      { label: "Trip hazards or cable hazards", info: "Look for loose cables or extensive use\nof power cords and adapters, uneven floors, or objects in walkways." },
+      { label: "Chemical safety (use & smell)", info: "Ensure chemicals are correctly labeled and used with PPE.\nAlso check for unusual odors and verify ventilation." },
+      { label: "Hygiene equipment available", info: "Ensure hand sanitizers, soap,\nand cleaning wipes are in place and not empty." },
+      { label: "Office emergency exit map is correct", info: "Locate the map\nand confirm it is accurate for the current layout." },
+      { label: "Protective gear is properly located", info: "Inspect PPE stations to verify\ngear is complete, labeled, and accessible." },
+      { label: "T5 truck routines followed", info: "Ensure the T5 forklift (not a truck)\nis parked, charged, and logbook is updated." },
+      { label: "Chemical book updated to latest version", info: "Open the chemical register\nand verify the latest entry is present." },
+      { label: "First aid is stocked and not expired", info: "Open the kit, confirm contents\nmatch checklist and none are expired." }
+    ];
+
+    const checklistContainer = document.getElementById("checklist");
+    checklistContainer.innerHTML = ""; // Clear before append
+    checklistItems.forEach((item, index) => {
+      checklistContainer.innerHTML += `
+        <div class="form-section">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="check${index}">
+            <label class="form-check-label" for="check${index}">${item.label}</label>
+            <div class="info-text">${item.info}</div>
+          </div>
+          <textarea class="form-control mt-2" rows="2" placeholder="Notes..."></textarea>
+        </div>`;
+    });
+
+    document.getElementById("previewBtn").addEventListener("click", async () => {
+      const el = document.getElementById("pdfArea");
+      const dateInput = document.getElementById("dateField");
+      dateInput.value = new Date().toLocaleDateString();
+
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        windowWidth: el.scrollWidth,
+        windowHeight: el.scrollHeight,
+        useCORS: true
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const preview = document.getElementById("previewContainer");
+      preview.innerHTML = `<p>🖼️ Long-press image to share (SMS, email, etc)</p><img src="${imgData}" alt="PDF Preview" />`;
+    });
+  </script>
+</body>
+</html>
