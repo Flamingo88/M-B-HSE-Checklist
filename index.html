@@ -8,35 +8,53 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
-      background: #f0f2f5;
+      background: #e4e4e4;
+      font-family: Arial, sans-serif;
       padding: 20px;
     }
-    .report-page {
+    .page {
       width: 210mm;
       min-height: 297mm;
+      background: #fff;
       padding: 20mm;
       margin: auto;
-      background: #fff;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      border-radius: 8px;
     }
-    .form-section {
-      background: #f9f9f9;
-      padding: 12px 16px;
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .inspector-box {
+      background: #f4f4f4;
+      padding: 10px;
+      display: inline-block;
       border-radius: 6px;
-      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .card {
       border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: #fdfdfd;
     }
-    .info-text {
-      font-size: 0.85em;
-      color: #555;
-      margin-top: 4px;
-      white-space: pre-wrap;
+    .card-icon {
+      width: 30px;
     }
-    textarea, input {
+    .card-content {
+      flex-grow: 1;
+    }
+    textarea {
       width: 100%;
-      margin-top: 8px;
+      margin-top: 4px;
     }
     #downloadBtn {
       display: block;
@@ -50,77 +68,58 @@
   </style>
 </head>
 <body>
-  <div class="report-page" id="pdf-content">
-    <h2>HSE Checklist Report – Metronor and BAS</h2>
-    <div class="form-section">
-      <label><strong>Inspector Name:</strong></label>
-      <input type="text" id="inspectorName" placeholder="Enter inspector name"/>
+  <div class="page" id="pdf-content">
+    <div class="header">
+      <h4>HSE CHECKLIST<br>METRONOR - BAS</h4>
+      <div class="inspector-box">HSE Inspector:<br><span id="inspector">THOMAS ØINES</span></div>
     </div>
-    <div id="checklist"></div>
-    <div class="form-section">
-      <label><strong>Fire Routine Notes:</strong></label>
-      <textarea placeholder="Enter notes..."></textarea>
-    </div>
-    <div class="form-section">
-      <label><strong>Additional Comments:</strong></label>
-      <textarea placeholder="Additional comments..."></textarea>
-    </div>
-    <div class="form-section">
-      <label><strong>Date:</strong></label>
-      <input type="text" id="dateField" value="2025-06-18" readonly/>
-    </div>
+    <div class="grid" id="checklist"></div>
+    <p class="mt-4"><strong>Date:</strong> 18/06/25</p>
   </div>
-  <button id="downloadBtn">📄 Download as Editable PDF</button>
+
+  <button id="downloadBtn">📄 Download as PDF</button>
+
   <script>
-    const checklistItems = 
-[
-  { "label": "Are escape routes clear", "info": "Ensure all emergency exits are\nfree of obstructions and clearly marked." },
-  { "label": "Good lighting", "info": "Check that workspaces and walkways\nare well-lit with functioning lights." },
-  { "label": "Fire extinguishers inspected", "info": "Check the stamp or tag\nfor the last service date. Take a photo if needed." },
-  { "label": "Fire hydrant accessible and not expired total 9, BAS 4 and Metronor 7", "info": "Check hydrant accessibility\nand validity tag. Report any blockage or overdue checks." },
-  { "label": "Trip hazards or cable hazards", "info": "Look for loose cables or extensive use\nof power cords and adapters, uneven floors, or objects in walkways." },
-  { "label": "Chemical safety (use & smell)", "info": "Ensure chemicals are correctly labeled and used with PPE.\nAlso check for unusual odors and verify ventilation." },
-  { "label": "Hygiene equipment available", "info": "Ensure hand sanitizers, soap,\nand cleaning wipes are in place and not empty." },
-  { "label": "Office emergency exit map is correct", "info": "Locate the map\nand confirm it is accurate for the current layout." },
-  { "label": "Protective gear is properly located", "info": "Inspect PPE stations to verify\ngear is complete, labeled, and accessible." },
-  { "label": "T5 truck routines followed", "info": "Ensure the T5 forklift (not a truck)\nis parked, charged, and logbook is updated." },
-  { "label": "Chemical book updated to latest version", "info": "Open the chemical register\nand verify the latest entry is present." },
-  { "label": "First aid is stocked and not expired", "info": "Open the kit, confirm contents\nmatch checklist and none are expired." }
-]
-;
+    const checklistItems = [
+      "Ensure all emergency exits are free of obstructions and clearly marked.",
+      "Check that workspaces and walkways are well-lit with functioning lights.",
+      "Ensure all emergency exits are free of obstructions and clearly marked.",
+      "Check that workspaces and walkways are well-lit with functioning lights.",
+      "Ensure all emergency exits are free of obstructions and clearly marked.",
+      "Check that workspaces and walkways are well-lit with functioning lights.",
+      "Ensure all emergency exits are free of obstructions and clearly marked.",
+      "Check that workspaces and walkways are well-lit with functioning lights.",
+      "Ensure all emergency exits are free of obstructions and clearly marked.",
+      "Check that workspaces and walkways are well-lit with functioning lights.",
+      "Ensure all emergency exits are free of obstructions and clearly marked.",
+      "Check that workspaces and walkways are well-lit with functioning lights."
+    ];
 
     const checklistContainer = document.getElementById("checklist");
-    checklistItems.forEach((item, index) => {
+    checklistItems.forEach(text => {
       checklistContainer.innerHTML += `
-        <div class='form-section'>
-          <label><strong>${item.label}</strong></label>
-          <div class='info-text'>${item.info}</div>
-          <textarea placeholder='Notes...'></textarea>
+        <div class="card">
+          <img class="card-icon" src="https://cdn-icons-png.flaticon.com/512/845/845646.png" />
+          <div class="card-content">
+            <div>${text}</div>
+            <textarea placeholder="Notes..."></textarea>
+          </div>
         </div>`;
     });
 
     document.getElementById("downloadBtn").addEventListener("click", () => {
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const content = document.getElementById('pdf-content');
-      const inputs = content.querySelectorAll('input, textarea');
-      let y = 20;
-      pdf.setFontSize(12);
-      inputs.forEach(el => {
-        if (el.previousElementSibling) {
-          pdf.text(el.previousElementSibling.textContent, 20, y);
-          y += 7;
-        }
-        const val = el.value || el.placeholder || '';
-        const lines = pdf.splitTextToSize(val, 170);
-        pdf.text(lines, 20, y);
-        y += lines.length * 7 + 5;
-        if (y > 270) {
-          pdf.addPage();
-          y = 20;
-        }
+      const doc = new jsPDF('p', 'mm', 'a4');
+      doc.html(document.getElementById('pdf-content'), {
+        callback: function (pdf) {
+          pdf.save("HSE_Checklist_Report.pdf");
+        },
+        margin: [10, 10, 10, 10],
+        x: 10,
+        y: 10,
+        autoPaging: true,
+        html2canvas: { scale: 0.5 }
       });
-      pdf.save('HSE_Checklist_Report.pdf');
     });
   </script>
 </body>
