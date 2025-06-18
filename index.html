@@ -1,177 +1,156 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HSE Checklist</title>
+  <title>HSE Checklist – Metronor & BAS</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
       background: #f0f2f5;
       font-family: 'Segoe UI', sans-serif;
-      padding: 16px;
     }
-    .page {
-      max-width: 1000px;
+    .report-container {
+      max-width: 900px;
       margin: auto;
-      background: #ffffff;
+      background: white;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
-    .header {
-      text-align: center;
-      margin-bottom: 24px;
+    .check-card {
+      border: 1px solid #d0d0d0;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: #f9fbfc;
+      transition: background 0.3s;
     }
-    .header h4 {
-      color: #0d6efd;
-      font-weight: bold;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-    }
-    .card {
-      border: 1px solid #dee2e6;
-      background: #f9f9f9;
-      padding: 12px;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-    }
-    .icon {
-      width: 28px;
-      height: 28px;
+    .check-icon {
+      float: right;
       cursor: pointer;
-      margin-bottom: 8px;
-      transition: transform 0.1s ease;
-    }
-    .icon:hover {
-      transform: scale(1.1);
-    }
-    .unchecked {
-      filter: grayscale(1) brightness(1.1) opacity(0.5);
+      font-size: 1.5rem;
+      color: gray;
     }
     .checked {
-      filter: hue-rotate(200deg) saturate(4);
+      color: #007bff;
     }
     textarea {
-      resize: vertical;
+      width: 100%;
       border-radius: 6px;
-      border: 1px solid #ccc;
-      padding: 6px;
-      margin-top: 8px;
-      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    .two-col {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .two-col > div {
+      flex: 1 1 calc(50% - 10px);
+    }
+    @media (max-width: 768px) {
+      .two-col > div {
+        flex: 1 1 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="header">
-      <h4>HSE CHECKLIST</h4>
-      <p class="text-muted">METRONOR - BAS</p>
-      <p><strong>HSE Inspector:</strong> Thomas Øines</p>
+  <div class="report-container">
+    <h2 class="text-center text-primary">HSE CHECKLIST</h2>
+    <p class="text-center text-muted">METRONOR - BAS</p>
+    <div class="mb-3">
+      <label for="inspectorName" class="form-label"><strong>Inspector Name:</strong></label>
+      <input type="text" id="inspectorName" class="form-control" placeholder="Enter your name" />
     </div>
-    <div class="grid">
-
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Ensure all emergency exits are free of obstructions and clearly marked.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Check that workspaces and walkways are well-lit with functioning lights.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Fire extinguishers inspected. Check the tag and date.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Fire hydrant accessible and not expired (9 total: BAS 4, Metronor 5).</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Trip hazards or cable hazards are cleared.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Chemical safety is ensured (labels, smell, PPE use).</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Hygiene equipment is available (sanitizer, soap, wipes).</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Office emergency exit map is correct and visible.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Protective gear is properly located and available.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>T5 truck routines are followed and logged.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>Chemical register is updated to latest version.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
-             class="icon unchecked"
-             onclick="this.classList.toggle('checked'); this.classList.toggle('unchecked');" />
-        <div>First aid kit is stocked and not expired.</div>
-        <textarea placeholder="Notes..." rows="2"></textarea>
-      </div>
-    
+    <div class="two-col" id="checklistArea"></div>
+    <div class="form-group mt-4">
+      <label for="fireNotes"><strong>Fire Routine Notes:</strong></label>
+      <textarea class="form-control" rows="2" id="fireNotes" placeholder="e.g. Fire extinguisher route tested..."></textarea>
+    </div>
+    <div class="form-group mt-3">
+      <label for="extraNotes"><strong>Additional Comments:</strong></label>
+      <textarea class="form-control" rows="3" id="extraNotes" placeholder="Other findings or suggestions..."></textarea>
+    </div>
+    <div class="form-group mt-3">
+      <label for="dateToday"><strong>Date:</strong></label>
+      <input type="text" class="form-control" id="dateToday" readonly />
+    </div>
+    <div class="text-center mt-4">
+      <button class="btn btn-primary" onclick="downloadChecklist()">⬇️ Download PDF</button>
     </div>
   </div>
+
+  <script>
+    const checklistItems = [
+      { label: "Are escape routes clear", info: "Ensure all emergency exits are free of obstructions and clearly marked." },
+      { label: "Good lighting", info: "Check that workspaces and walkways are well-lit with functioning lights." },
+      { label: "Fire extinguishers inspected", info: "Check the stamp or tag for the last service date. Take a photo if needed." },
+      { label: "Fire hydrant accessible and not expired", info: "Check hydrant accessibility and validity tag. BAS: 4, Metronor: 5." },
+      { label: "Trip hazards or cable hazards", info: "Look for loose cables, power cords, uneven floors, or obstacles." },
+      { label: "Chemical safety (use & smell)", info: "Ensure proper labeling, PPE use, ventilation, and no unusual odors." },
+      { label: "Hygiene equipment available", info: "Check sanitizers, soap, and wipes are present and not empty." },
+      { label: "Office emergency exit map is correct", info: "Locate and verify map accuracy with the current layout." },
+      { label: "Protective gear is properly located", info: "Inspect PPE stations for completeness and accessibility." },
+      { label: "T5 truck routines followed", info: "Ensure forklift is parked, charged, and logbook updated." },
+      { label: "Chemical book updated to latest version", info: "Verify the latest chemical registry entry is logged." },
+      { label: "First aid is stocked and not expired", info: "Open kit and confirm all items are valid and stocked." }
+    ];
+
+    const checklistContainer = document.getElementById("checklistArea");
+    checklistItems.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "check-card";
+      div.innerHTML = `
+        <span class="check-icon" onclick="toggleCheck(this)">✖</span>
+        <div><strong>${item.label}</strong></div>
+        <small>${item.info}</small>
+        <textarea rows="2" placeholder="Notes..." data-index="${index}"></textarea>
+      `;
+      checklistContainer.appendChild(div);
+    });
+
+    function toggleCheck(el) {
+      el.classList.toggle("checked");
+      el.textContent = el.classList.contains("checked") ? "✔" : "✖";
+    }
+
+    function downloadChecklist() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+      let y = 40;
+      doc.setFontSize(14);
+      doc.text("HSE CHECKLIST REPORT – METRONOR AND BAS", 40, y);
+      y += 20;
+      const name = document.getElementById("inspectorName").value;
+      doc.setFontSize(12);
+      doc.text("Inspector: " + name, 40, y);
+      y += 20;
+      checklistItems.forEach((item, index) => {
+        const icon = document.getElementsByClassName("check-icon")[index];
+        const checked = icon.classList.contains("checked");
+        const note = document.querySelector(`textarea[data-index="${index}"]`).value;
+        doc.text(`${checked ? "☑" : "☐"} ${item.label}`, 40, y);
+        y += 14;
+        if (note) {
+          doc.setFontSize(10);
+          doc.text("Note: " + note, 50, y);
+          y += 12;
+          doc.setFontSize(12);
+        }
+        y += 10;
+        if (y > 780) { doc.addPage(); y = 40; }
+      });
+      const fire = document.getElementById("fireNotes").value;
+      const extra = document.getElementById("extraNotes").value;
+      doc.text("Fire Notes: " + fire, 40, y); y += 14;
+      doc.text("Comments: " + extra, 40, y); y += 14;
+      doc.save("HSE_Checklist_Report.pdf");
+    }
+
+    document.getElementById("dateToday").value = new Date().toISOString().split('T')[0];
+  </script>
 </body>
 </html>
